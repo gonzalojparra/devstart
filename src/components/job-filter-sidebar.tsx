@@ -1,4 +1,11 @@
-import { Label } from '@/components/ui/label';
+import { redirect } from 'next/navigation';
+
+import { jobFilterSchema } from '@/lib/validation';
+import { jobTypes } from '@/lib/job-types';
+import prisma from '@/lib/db';
+
+import { Button } from './ui/button';
+import { Checkbox } from './ui/checkbox';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -8,13 +15,21 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-
-import prisma from '@/lib/db';
-import { jobTypes } from '@/lib/job-types';
-import { Checkbox } from './ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 async function filterJobs(formData: FormData) {
   'use server'
+
+  const values = Object.fromEntries(formData.entries()) as Record<string, string>;
+  const { q, type, location, remote } = jobFilterSchema.parse(values);
+  const searchParams = new URLSearchParams({
+    ...(q && { q: q.trim() }),
+    ...(type && { type }),
+    ...(location && { location }),
+    ...(remote && { remote: 'true' })
+  });
+
+  redirect(`/jobs?${searchParams.toString()}`);
 }
 
 export default async function JobFilterSidebar() {
@@ -72,6 +87,7 @@ export default async function JobFilterSidebar() {
             <Checkbox id='remote' />
             <Label htmlFor='remote'>Remote jobs</Label>
           </div>
+          <Button type='submit' className='w-full'>Filter</Button>
         </div>
       </form>
     </aside>
