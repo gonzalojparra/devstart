@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { jobFilterSchema } from '@/lib/validation';
+import { JobFilterValues, jobFilterSchema } from '@/lib/validation';
 import { jobTypes } from '@/lib/job-types';
 import prisma from '@/lib/db';
 
@@ -17,6 +17,10 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 
+interface JobFilterSidebarProps {
+  defaultValues: JobFilterValues;
+}
+
 async function filterJobs(formData: FormData) {
   'use server'
 
@@ -32,7 +36,9 @@ async function filterJobs(formData: FormData) {
   redirect(`/jobs?${searchParams.toString()}`);
 }
 
-export default async function JobFilterSidebar() {
+export default async function JobFilterSidebar({
+  defaultValues
+}: JobFilterSidebarProps) {
   const distinctLocations = (await prisma.job.findMany({
     where: { approved: true },
     select: { location: true },
@@ -47,11 +53,16 @@ export default async function JobFilterSidebar() {
         <div className='space-y-4'>
           <div className='flex flex-col gap-2'>
             <Label htmlFor='q'>Search</Label>
-            <Input id='q' name='q' placeholder='Title, company, etc' />
+            <Input
+              id='q'
+              name='q'
+              placeholder='Title, company, etc'
+              defaultValue={defaultValues.q}
+            />
           </div>
           <div className='flex flex-col gap-2'>
             <Label htmlFor='type'>Type</Label>
-            <Select name='type'>
+            <Select name='type' defaultValue={defaultValues.type || ''}>
               <SelectTrigger className='w-full'>
                 <SelectValue placeholder='Select a type' />
               </SelectTrigger>
@@ -68,7 +79,7 @@ export default async function JobFilterSidebar() {
           </div>
           <div className='flex flex-col gap-2'>
             <Label htmlFor='location'>Location</Label>
-            <Select name='location'>
+            <Select name='location' defaultValue={defaultValues.location || ''}>
               <SelectTrigger className='w-full'>
                 <SelectValue placeholder='Select a location' />
               </SelectTrigger>
@@ -84,7 +95,7 @@ export default async function JobFilterSidebar() {
             </Select>
           </div>
           <div className='flex items-center gap-2'>
-            <Checkbox id='remote' />
+            <Checkbox id='remote' defaultChecked={defaultValues.remote} />
             <Label htmlFor='remote'>Remote jobs</Label>
           </div>
           <Button type='submit' className='w-full'>Filter</Button>
