@@ -4,8 +4,8 @@ import { JobFilterValues, jobFilterSchema } from '@/lib/validation';
 import { jobTypes } from '@/lib/job-types';
 import prisma from '@/lib/db';
 
-import { Button } from './ui/button';
-import { Checkbox } from './ui/checkbox';
+import { Checkbox } from '@/components/ui/checkbox';
+import { FormSubmitButton } from '@/components/shared/FormSubmitButton';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -98,7 +98,7 @@ export default async function JobFilterSidebar({
             <Checkbox id='remote' defaultChecked={defaultValues.remote} />
             <Label htmlFor='remote'>Remote jobs</Label>
           </div>
-          <Button type='submit' className='w-full'>Filter</Button>
+          <FormSubmitButton className='w-full'>Filter jobs</FormSubmitButton>
         </div>
       </form>
     </aside>
