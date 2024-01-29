@@ -3,6 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { jobTypes, locationTypes } from '@/lib/job-types';
 import { JobValues, jobSchema } from '@/lib/validation';
 
 import {
@@ -14,6 +15,14 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 
 export default function NewJobForm() {
   const form = useForm<JobValues>({
@@ -60,6 +69,92 @@ export default function NewJobForm() {
                   <FormLabel>Job title</FormLabel>
                   <FormControl>
                     <Input placeholder='e.g. Frontend Developer' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name='type'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Job type</FormLabel>
+                  <FormControl>
+                    <Select {...field} defaultValue=''>
+                      <SelectTrigger>
+                        <SelectValue placeholder='Select a type' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {jobTypes.map(type => (
+                            <SelectItem key={type} value={type}>
+                              {type}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name='company'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Company</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name='companyLogo'
+              render={({ field: { value, ...fieldValues } }) => (
+                <FormItem>
+                  <FormLabel>Company logo</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...fieldValues}
+                      type='file'
+                      accept='image/*'
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        fieldValues.onChange(file);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name='locationType'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Location</FormLabel>
+                  <FormControl>
+                    <Select {...field} defaultValue=''>
+                      <SelectTrigger>
+                        <SelectValue placeholder='Select a location type' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {locationTypes.map(locationType => (
+                            <SelectItem key={locationType} value={locationType}>
+                              {locationType}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
