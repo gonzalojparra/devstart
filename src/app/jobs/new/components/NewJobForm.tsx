@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import LocationInput from './location-input';
 
 export default function NewJobForm() {
   const form = useForm<JobValues>({
@@ -155,6 +156,19 @@ export default function NewJobForm() {
                         </SelectGroup>
                       </SelectContent>
                     </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name='location'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Office location</FormLabel>
+                  <FormControl>
+                    <LocationInput onLocationSelected={field.onChange} ref={field.ref} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
