@@ -2,10 +2,12 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { draftToMarkdown } from 'markdown-draft-js';
 
 import { jobTypes, locationTypes } from '@/lib/job-types';
 import { JobValues, jobSchema } from '@/lib/validation';
 
+import { AddJobButton } from '@/components/shared/FormSubmitButton';
 import {
   Form,
   FormControl,
@@ -15,6 +17,8 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import LocationInput from './location-input';
 import {
   Select,
   SelectContent,
@@ -23,7 +27,9 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import LocationInput from './location-input';
+import Wysiwyg from '@/components/ui/wysiwyg';
+
+import { X } from 'lucide-react';
 
 export default function NewJobForm() {
   const form = useForm<JobValues>({
@@ -36,6 +42,7 @@ export default function NewJobForm() {
     trigger,
     control,
     setValue,
+    setFocus,
     formState: { isSubmitting }
   } = form;
 
@@ -49,7 +56,7 @@ export default function NewJobForm() {
         <h1 className='text-4xl font-extrabold tracking-tight lg:text-5xl'>
           Find your perfect developer
         </h1>
-        <p className='text-muted-foreground'>Get your job posting seen by thousands of job seekers.</p>
+        <p className='text-muted-foreground pt-3'>Get your job posting seen by thousands of job seekers.</p>
       </div>
       <div className='space-y-6 border rounded-lg p-4'>
         <div className=''>
@@ -142,7 +149,16 @@ export default function NewJobForm() {
                 <FormItem>
                   <FormLabel>Location</FormLabel>
                   <FormControl>
-                    <Select {...field} defaultValue=''>
+                    <Select
+                      {...field}
+                      defaultValue=''
+                      /* onChange={(e) => {
+                        field.onChange(e);
+                        if (e.currentTarget.value === 'Remote') {
+                          trigger('location');
+                        }
+                      }} */
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder='Select a location type' />
                       </SelectTrigger>
@@ -170,10 +186,100 @@ export default function NewJobForm() {
                   <FormControl>
                     <LocationInput onLocationSelected={field.onChange} ref={field.ref} />
                   </FormControl>
+                  {watch('location') && (
+                    <div className='flex items-center gap-1'>
+                      <button
+                        type='button'
+                        onClick={() => {
+                          setValue('location', '', { shouldValidate: true })
+                        }}
+                      >
+                        <X size={20} />
+                      </button>
+                      <span className='text-sm'>{watch('location')}</span>
+                    </div>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <div className='space-y-2'>
+              <Label htmlFor='applicationEmail'>How to apply</Label>
+              <div className='flex justify-between'>
+                <FormField
+                  control={control}
+                  name='applicationEmail'
+                  render={({ field }) => (
+                    <FormItem className='grow'>
+                      <FormControl>
+                        <div className='flex items-center'>
+                          <Input
+                            id='applicationEmail'
+                            placeholder='Email'
+                            type='email'
+                            {...field}
+                          />
+                          <span className='mx-2'>or</span>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name='applicationUrl'
+                  render={({ field }) => (
+                    <FormItem className='grow'>
+                      <FormControl>
+                        <Input
+                          placeholder='Website'
+                          type='url'
+                          {...field}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            trigger('applicationEmail');
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+            <FormField
+              control={control}
+              name='description'
+              render={({ field }) => (
+                <FormItem>
+                  <Label onClick={() => setFocus('description')}>Description</Label>
+                  <FormControl>
+                    <Wysiwyg
+                      onChange={draft => field.onChange(draftToMarkdown(draft))}
+                      ref={field.ref}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name='salary'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Salary</FormLabel>
+                  <FormControl>
+                    <Input {...field} type='number' />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <AddJobButton type='submit' loading={isSubmitting}>
+              Submit
+            </AddJobButton>
           </form>
         </Form>
       </div>
