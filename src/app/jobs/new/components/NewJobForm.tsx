@@ -30,6 +30,7 @@ import {
 import Wysiwyg from '@/components/ui/wysiwyg';
 
 import { X } from 'lucide-react';
+import { createJobPost } from '../actions';
 
 export default function NewJobForm() {
   const form = useForm<JobValues>({
@@ -47,7 +48,18 @@ export default function NewJobForm() {
   } = form;
 
   async function onSubmit(values: JobValues) {
-    alert(JSON.stringify(values, null, 2));
+    const formData = new FormData();
+    Object.entries(values).forEach(([key, value]) => {
+      if (value) {
+        formData.append(key, value);
+      }
+    });
+
+    try {
+      await createJobPost(formData);
+    } catch (error) {
+      alert('Something went wrong');
+    }
   }
 
   return (
