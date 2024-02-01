@@ -1,8 +1,10 @@
 import { cache } from 'react';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 import prisma from '@/lib/db';
-import { Metadata } from 'next';
+
+import JobPage from './components/job-page';
 
 interface PageProps {
   params: { slug: string }
@@ -33,8 +35,8 @@ export default async function Page({
   const job = await getJob(slug);
 
   return (
-    <main className='max-w-5xl m-auto my-10 flex flex-col md:flex-row items-center gap-5 md:items-start'>
-      
+    <main className='max-w-5xl px-3 m-auto my-10 flex flex-col md:flex-row items-center gap-5 md:items-start'>
+      <JobPage job={job} />
     </main>
   )
 }
