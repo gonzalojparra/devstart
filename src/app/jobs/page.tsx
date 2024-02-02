@@ -9,6 +9,7 @@ interface PageProps {
     type?: string,
     location?: string,
     remote?: string,
+    page?: string
   }
 }
 
@@ -18,6 +19,7 @@ export default async function JobsPage({
     type,
     location,
     remote,
+    page
   }
 }: PageProps) {
   const filterValues: JobFilterValues = {
@@ -35,7 +37,10 @@ export default async function JobsPage({
       </div>
       <section className='flex flex-col md:flex-row gap-4'>
         <JobFilterSidebar defaultValues={filterValues} />
-        <JobResults filterValues={filterValues} />
+        <JobResults
+          filterValues={filterValues}
+          page={page ? parseInt(page) : undefined}
+        />
       </section>
     </main>
   );
