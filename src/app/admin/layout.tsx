@@ -1,6 +1,8 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import { Metadata } from 'next';
 
+import AdminMenubar from './components/admin-menubar';
+
 export const metadata: Metadata = {
   title: 'Admin',
   description: 'Admin panel for DevStart',
@@ -13,6 +15,7 @@ export default function AdminLayout({
 }) {
   return (
     <ClerkProvider>
+      <AdminMenubar />
       {children}
     </ClerkProvider>
   )

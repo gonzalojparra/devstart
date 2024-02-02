@@ -2,7 +2,7 @@
 
 import { useFormState } from 'react-dom';
 
-import { approveSubmission } from '@/app/admin/actions';
+import { approveSubmission, deleteJob } from '../actions';
 import { Job } from '@prisma/client';
 
 import { FormSubmitButton } from '@/components/shared/FormSubmitButton';
@@ -20,6 +20,7 @@ export default function AdminSidebar({ job }: AdminSidebarProps) {
       ) : (
         <ApproveSubmissionButton jobId={job.id} />
       )}
+      <DeleteJobButton jobId={job.id} />
     </aside>
   )
 }
@@ -35,6 +36,20 @@ function ApproveSubmissionButton({ jobId }: AdminButtonProps) {
     <form action={formAction} className='space-y-1'>
       <Input hidden name='jobId' value={jobId} />
       <FormSubmitButton className='w-full bg-primary'>Approve</FormSubmitButton>
+      {formState?.error && (
+        <p className='text-sm text-destructive'>{formState.error}</p>
+      )}
+    </form>
+  )
+}
+
+function DeleteJobButton({ jobId }: AdminButtonProps) {
+  const [formState, formAction] = useFormState(deleteJob, undefined);
+
+  return (
+    <form action={formAction} className='space-y-1'>
+      <Input hidden name='jobId' value={jobId} />
+      <FormSubmitButton className='w-full bg-destructive'>Delete</FormSubmitButton>
       {formState?.error && (
         <p className='text-sm text-destructive'>{formState.error}</p>
       )}
