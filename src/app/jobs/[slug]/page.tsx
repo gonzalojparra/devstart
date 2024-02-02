@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import prisma from '@/lib/db';
 
 import { Button } from '@/components/ui/button';
-import JobPage from './components/job-page';
+import JobPage from '@/components/job-page';
 
 interface PageProps {
   params: { slug: string }

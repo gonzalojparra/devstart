@@ -1,13 +1,13 @@
 'use server'
 
-import { redirect } from 'next/navigation';
 import { nanoid } from 'nanoid';
-import { put } from '@vercel/blob';
 import path from 'path';
+import { put } from '@vercel/blob';
+import { redirect } from 'next/navigation';
 
-import { toSlug } from '@/lib/utils';
 import { jobSchema } from '@/lib/validation';
 import prisma from '@/lib/db';
+import { toSlug } from '@/lib/utils';
 
 export async function createJobPost(formData: FormData) {
   const values = Object.fromEntries(formData.entries());
