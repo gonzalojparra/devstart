@@ -2,21 +2,32 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { CardContent, Card } from '@/components/ui/card';
+import Image from 'next/image';
 
 export default function HomePage() {
   return (
     <div className='flex flex-col min-h-screen'>
       <main className='flex-1'>
-        <section className='w-full py-12 md:py-24 lg:py-32 xl:py-48'>
+        <section className='w-full py-2 md:py-5 lg:py-7 xl:py-14'>
           <div className='container px-4 md:px-6'>
-            <div className='flex flex-col items-center space-y-4 text-center'>
+            <div className='flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-6 text-center lg:text-left'>
               <div className='space-y-2'>
-                <h1 className='text-3xl text-primary font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none'>
+                <h1 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none'>
                   Connect with your first job opportunity
                 </h1>
-                <p className='mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
+                <p className='mx-auto max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
                   We help trainee and junior developers find their first job. Start your career with us.
                 </p>
+              </div>
+              <div className='w-full max-w-md lg:max-w-lg'>
+                <Image
+                  src='/assets/get-started.png'
+                  alt='Hero'
+                  className='w-[90%] h-[90%] object-contain transition-all duration-300 ease-in-out transform hover:rotate-6'
+                  height={500}
+                  width={500}
+                  quality={100}
+                />
               </div>
             </div>
           </div>
@@ -25,7 +36,7 @@ export default function HomePage() {
           <div className='container px-4 md:px-6'>
             <div className='flex flex-col items-center justify-center space-y-4 text-center'>
               <div className='space-y-2'>
-                <div className='inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800'>
+                <div className='inline-block border-transparent bg-primary text-primary-foreground hover:bg-primary/80 rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'>
                   Success Stories
                 </div>
                 <h2 className='text-3xl font-bold tracking-tighter sm:text-5xl'>
@@ -37,13 +48,13 @@ export default function HomePage() {
               </div>
             </div>
             <div className='mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12'>
-              <Card>
+              <Card className='transition-all hover:scale-105'>
                 <CardContent className='flex flex-col items-center space-y-4'>
                   <img
                     alt='Profile'
                     className='w-24 h-24 mt-5 rounded-full'
                     height='100'
-                    src='https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                    src='/assets/people-01.png'
                     style={{
                       aspectRatio: '100/100',
                       objectFit: 'cover',
@@ -56,13 +67,13 @@ export default function HomePage() {
                   </p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className='transition-all hover:scale-105'>
                 <CardContent className='flex flex-col items-center space-y-4'>
                   <img
                     alt='Profile'
                     className='w-24 h-24 mt-5 rounded-full'
                     height='100'
-                    src='https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                    src='/assets/people-02.png'
                     style={{
                       aspectRatio: '100/100',
                       objectFit: 'cover',
@@ -75,13 +86,13 @@ export default function HomePage() {
                   </p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className='transition-all hover:scale-105'>
                 <CardContent className='flex flex-col items-center space-y-4'>
                   <img
                     alt='Profile'
                     className='w-24 h-24 mt-5 rounded-full'
                     height='100'
-                    src='https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                    src='/assets/people-03.png'
                     style={{
                       aspectRatio: '100/100',
                       objectFit: 'cover',
