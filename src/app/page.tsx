@@ -1,8 +1,8 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { CardContent, Card } from '@/components/ui/card';
-import Image from 'next/image';
 
 export default function HomePage() {
   return (

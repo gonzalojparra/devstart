@@ -1,4 +1,9 @@
 import Link from 'next/link';
+import {
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs';
 
 import { BriefcaseIcon } from 'lucide-react';
 
@@ -9,13 +14,21 @@ export default function Header() {
         <BriefcaseIcon className='h-6 w-6' />
         <span className='sr-only'>DevStart</span>
       </Link>
-      <nav className='ml-auto flex gap-4 sm:gap-6'>
+      <nav className='ml-auto flex gap-4 sm:gap-6 items-center'>
         <Link className='text-sm font-medium hover:underline underline-offset-4' href='/jobs'>
           Jobs
         </Link>
-        <Link className='text-sm font-medium hover:underline underline-offset-4' href='/sign-up'>
-          Sign Up
-        </Link>
+
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+
+        <SignedOut>
+          <Link className='text-sm font-medium hover:underline underline-offset-4' href='/sign-up'>
+            Sign Up
+          </Link>
+        </SignedOut>
+
       </nav>
     </header>
   )

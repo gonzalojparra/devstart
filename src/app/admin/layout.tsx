@@ -1,4 +1,3 @@
-import { ClerkProvider } from '@clerk/nextjs';
 import { Metadata } from 'next';
 
 import AdminMenubar from './components/admin-menubar';
@@ -14,9 +13,9 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
+    <>
       <AdminMenubar />
       {children}
-    </ClerkProvider>
+    </>
   )
 }
